@@ -12,19 +12,11 @@ class Room(models.Model):
     room_no = models.IntegerField(unique=True)
     type = models.CharField(max_length=20, choices=TYPES)    
     price = models.IntegerField()
-    available = models.BooleanField(default=True) 
     max_guests = models.IntegerField()
 
     def __str__(self):
         return f"Room: {self.room_no} - {self.type}"
 
-    def mark_as_booked(self):
-        self.available = False
-        self.save()
-
-    def mark_as_available(self):
-        self.available = True
-        self.save()
 
 
 class Customer(models.Model):

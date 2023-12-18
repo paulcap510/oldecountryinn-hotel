@@ -6,11 +6,10 @@
     {% if reservation %}
         <h1>Reservation Confirmed</h1>
         <p>Your reservation for a {{ reservation.room.get_type_display }} room from {{ reservation.check_in_date }} to {{ reservation.check_out_date }} has been successfully made.</p>
+        {% comment %} option inclusion of room number {% endcomment %}
         <p>Room Number: {{ reservation.room.room_no }}</p>
         <p>Total Price: ${{ total_price }}</p> 
-        <!-- Assuming total_price is passed in the context -->
         <p>Customer Name: {{ reservation.customer.first_name }} {{ reservation.customer.last_name }}</p>
-        <!-- Additional reservation details can be added here -->
     {% elif error_message %}
         <div class="alert alert-danger">
             {{ error_message }}
