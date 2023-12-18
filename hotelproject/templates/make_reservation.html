@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}Make Reservation{% endblock %}
+
+{% block content %}
+<style>
+    .container-big {
+        display: flex;
+        justify-content: space-between; /* Distributes space between children */
+    }
+
+    .container-big-left, .container-big-right {
+        flex: 1; /* Each child takes equal width */
+        padding: 15px; /* Spacing inside each container */
+    }
+
+    .card {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px; /* Adjusted margin */
+        transition: box-shadow 0.3s ease-in-out;
+    }
+     
+    .card:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    }
+     
+    .form-control, .btn {
+        border-radius: 4px; /* Slightly rounded edges for form elements */
+        border: 1px solid #ddd; /* Subtle border */
+        padding: 10px 15px; /* Increased padding for better touch */
+        margin-bottom: 15px; /* Spacing between form elements */
+    }
+
+    .btn-primary {
+        background-color: #212529;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #d6d6d6; /* Light gray color */
+        color: #000; /* Optional: Change text color if needed */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"] {
+        width: 100%;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="container-big">
+        <div class="container-big-left">
+            <h1>Make a Reservation</h1>
+            <p>Room Type: {{ room_type|title }}</p>
+            <p>Check-In Date: {{ check_in_date }}</p>
+            <p>Check-Out Date: {{ check_out_date }}</p>
+            <p>Number of Guests: {{ guests }}</p>
+            <p>Total Price: ${{ total_price }}</p>
+        </div>
+
+        <div class="container-big-right">
+            <div class="card">
+                <form method="post" action="{% url 'confirm_reservation' %}" class="form-group">
+                    {% csrf_token %}
+                    <input type="hidden" name="room_type" value="{{ room_type }}">
+                    <input type="hidden" name="check_in_date" value="{{ check_in_date|date:'Y-m-d' }}">           
+                    <input type="hidden" name="check_out_date" value="{{ check_out_date|date:'Y-m-d' }}">
+                    <input type="hidden" name="total_price" value="{{ total_price }}">
+                    
+                    <div class="mb-3">
+                        <label for="first-name" class="form-label">First Name</label>
+                        <input type="text" id="first-name" name="first_name" class="form-control" placeholder="First name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last-name" class="form-label">Last Name</label>
+                        <input type="text" id="last-name" name="last_name" class="form-control" placeholder="Last name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cc-number" class="form-label">Credit Card Number</label>
+                        <input type="text" id="cc-number" name="test_credit_card_number" class="form-control" placeholder="1234 5678 9012 3456" maxlength="16" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cc-expiry" class="form-label">Expiration Date</label>
+                        <input type="text" id="cc-expiry" name="test_credit_card_expiry" class="form-control" placeholder="MMYY" maxlength="4" required>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Confirm Reservation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

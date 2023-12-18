@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Our Rooms{% endblock %}
+
+{% load static %}
+{% block content %}
+<style>
+  .btn-custom-color {
+    background-color: #212529;
+    border: none;
+  }
+  .btn-custom-color:hover {
+    background-color: #d6d6d6; /* Light gray color */
+    color: #000; /* Optional: Change text color if needed */
+  }
+</style>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Available Rooms</h1>
+    <div class="row">
+      {% for room_type in available_room_types_with_text %}
+      <div class="col-md-3 mb-4">
+          <div class="card">
+              <img src="{% static 'room.jpg' %}" class="card-img-top img-fluid" alt="{{ room_type.value }}">
+              <div class="card-body text-center">
+                  <h5 class="card-title text-black">{{ room_type.value }}</h5>  
+                  <p class="card-text">Some description about {{ room_type.value }}.</p>
+                  <a href="{% url 'make_reservation' %}?room_type={{ room_type.key }}&check_in_date={{ check_in_date|date:'Y-m-d' }}&check_out_date={{ check_out_date|date:'Y-m-d' }}&guests=1" class="btn btn-primary btn-custom-color">Reserve now</a>              </div>
+          </div>
+      </div>
+      {% endfor %} 
+    </div>
+</div>
+{% endblock %}
